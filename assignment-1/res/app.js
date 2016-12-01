@@ -23,8 +23,10 @@
                 lunchItems = lunchItems.split(',');
                 // Get total lunch items (except for empty one's)
                 var lunchItemsCount = getLunchItemsCount(lunchItems);
-                // Criteria for number of items
-                if (lunchItemsCount <= 3) {
+                // Show appropriate message depending on lunch items
+                if (lunchItemsCount === 0) {
+                    $scope.message = "Please enter data first";
+                } else if (lunchItemsCount <= 3) {
                     $scope.message = "Enjoy!";
                 } else {
                     $scope.message = "Too much!";
