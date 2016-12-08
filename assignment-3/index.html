@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Narrow Down Your Menu Choice</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/styles.css">
+    </head>
+    <script src="res/angular.min.js" charset="utf-8"></script>
+    <script src="res/app.js" charset="utf-8"></script>
+    <body ng-app="NarrowItDownApp">
+        <div class="container" ng-controller="NarrowItDownController as cntrl">
+
+            <div class="form-group">
+
+                <h1>Narrow Down Your Chinese Menu Choice</h1>
+                <input type="text" placeholder="search term" class="form-control" ng-model="cntrl.searchTerm">
+                <button class="btn btn-primary" ng-click="cntrl.filterMenuItems()">Narrow It Down For Me!</button>
+
+                <!-- Friendly reminder to assignment marker -->
+                <p></p>
+                <i>Please open console window to see error in case there's problem retrieving menu items from url.</i>
+
+                <!-- Adding paragraph tags to make the list appear below input and button items. Not spending time to make it look pretty -->
+                <p></p>
+
+                <!-- found-items should be implemented as a component -->
+                <found-items found-items="cntrl.found" on-remove="cntrl.removeItem(index)"></found-items>
+
+            </div>
+
+        </div>
+
+    </body>
+</html>
