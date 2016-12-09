@@ -30,15 +30,30 @@
         // Initializing found items array with empty set
         narrowItDown.found = [];
 
+        // Initializing error message string to empty one
+        narrowItDown.errorMessage = "";
+
         // Function for filtering menu items based on search query
         narrowItDown.filterMenuItems = function() {
+            // Reset error message
+            narrowItDown.errorMessage = "";
+
             // Passing the searched string to service for processing
             var promise = MenuSearchService.getMatchedMenuItems(narrowItDown.searchTerm);
 
-            // Handle result returned by then function in url request
-            promise.then(function(foundItems) {
-                narrowItDown.found = foundItems;
-            });
+            if (promise === null) {
+                narrowItDown.errorMessage = "Nothing found";
+                narrowItDown.found = [];
+            } else {
+                // Handle result returned by then function in url request
+                promise.then(function(foundItems) {
+                    if (foundItems.length === 0) {
+                        narrowItDown.errorMessage = "Nothing found";
+                    }
+                    narrowItDown.found = foundItems;
+                });
+            }
+
         };
 
         // Removing the item not required in filtered results
@@ -53,28 +68,33 @@
         var service = this;
 
         service.getMatchedMenuItems = function(searchTerm) {
-            // Get menu items from url
-            var response = $http({
-                    method: 'GET',
-                    url: BaseUrl + 'menu_items.json' // Base url takes care of trailing '/'
-                }).then(function(result) {
-                    // Check if status is favourable
-                    if (result.status === 200) {
-                        // Go ahead and get the data
-                        var foundItems = findSearchTerm(result.data, searchTerm);
+            // Check if empty string is entered
+            if (searchTerm === "") {
+                return null;
+            } else {
+                // Get menu items from url
+                var response = $http({
+                        method: 'GET',
+                        url: BaseUrl + 'menu_items.json' // Base url takes care of trailing '/'
+                    }).then(function(result) {
+                        // Check if status is favourable
+                        if (result.status === 200) {
+                            // Go ahead and get the data
+                            var foundItems = findSearchTerm(result.data, searchTerm);
 
-                        return foundItems;
-                    } else {
-                        // Url isn't available
-                        console.log('Url returned status ', result.status);
-                    }
-                })
-                .catch(function(error) {
-                    // Something went wrong. Show error in console
-                    console.log('Unable to process request with error ', error);
-                });
+                            return foundItems;
+                        } else {
+                            // Url isn't available
+                            console.log('Url returned status ', result.status);
+                        }
+                    })
+                    .catch(function(error) {
+                        // Something went wrong. Show error in console
+                        console.log('Unable to process request with error ', error);
+                    });
 
-            return response;
+                return response;
+            }
         };
 
         function findSearchTerm(data, searchTerm) {

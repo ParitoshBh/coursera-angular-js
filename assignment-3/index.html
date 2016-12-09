@@ -10,25 +10,22 @@
     <script src="res/app.js" charset="utf-8"></script>
     <body ng-app="NarrowItDownApp">
         <div class="container" ng-controller="NarrowItDownController as cntrl">
+            <h1>Narrow Down Your Chinese Menu Choice</h1>
 
             <div class="form-group">
-
-                <h1>Narrow Down Your Chinese Menu Choice</h1>
                 <input type="text" placeholder="search term" class="form-control" ng-model="cntrl.searchTerm">
+            </div>
+            <div class="form-group narrow-button">
                 <button class="btn btn-primary" ng-click="cntrl.filterMenuItems()">Narrow It Down For Me!</button>
-
-                <!-- Friendly reminder to assignment marker -->
-                <p></p>
-                <i>Please open console window to see error in case there's problem retrieving menu items from url.</i>
-
-                <!-- Adding paragraph tags to make the list appear below input and button items. Not spending time to make it look pretty -->
-                <p></p>
-
-                <!-- found-items should be implemented as a component -->
-                <found-items found-items="cntrl.found" on-remove="cntrl.removeItem(index)"></found-items>
-
             </div>
 
+            <!-- Friendly reminder to assignment marker -->
+            <br><br><br>
+            <i>Please open console window to see error in case there's problem retrieving menu items from url.</i>
+
+            <!-- found-items should be implemented as a component -->
+            <found-items found-items="cntrl.found" on-remove="cntrl.removeItem(index)"></found-items>
+            <p class="text-danger" ng-if="cntrl.errorMessage">{{ cntrl.errorMessage }}</p>
         </div>
 
     </body>
